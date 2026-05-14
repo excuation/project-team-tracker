@@ -4,8 +4,8 @@ A full-stack web application for team project management, task assignment, and p
 
 **Built by Ethara AI**
 
-🔗 **Live URL:** [https://web-production-228f7.up.railway.app](https://web-production-228f7.up.railway.app)  
-📦 **GitHub Repo:** [https://github.com/HassamUmar/TeamTracker](https://github.com/HassamUmar/TeamTracker.git)
+🔗 **Live URL:** https://web-production-830be.up.railway.app/login  
+📦 **GitHub Repo:** https://github.com/excuation/project-team-tracker/edit/main/README.md
 
 ---
 
@@ -125,8 +125,8 @@ ethara-task-manager/
 
 ## ✅ Submission Checklist
 
-- [x] Live URL: https://web-production-228f7.up.railway.app
-- [x] GitHub Repo: https://github.com/HassamUmar/TeamTracker
+- [x] Live URL: https://web-production-830be.up.railway.app/login
+- [x] GitHub Repo: https://github.com/excuation/project-team-tracker/edit/main/README.md
 - [x] README documentation
 - [ ] 2–5 min demo video
 
