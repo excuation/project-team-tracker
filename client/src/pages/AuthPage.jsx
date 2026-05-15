@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
@@ -15,11 +15,18 @@ export default function AuthPage() {
   const { login, signup, user } = useAuth();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (user) {
-      navigate('/');
-    }
-  }, [user, navigate]);
+  const inputStyle = {
+    width: '100%',
+    padding: '14px 16px',
+    borderRadius: '14px',
+    border: '1px solid rgba(0, 0, 0, 0.1)',
+    background: 'rgba(255, 255, 255, 0.8)',
+    color: '#1f2937',
+    outline: 'none',
+    fontSize: '15px',
+    boxSizing: 'border-box',
+    backdropFilter: 'blur(10px)',
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,393 +42,108 @@ export default function AuthPage() {
       navigate('/');
     } catch (err) {
       setError(err.message || 'Something went wrong');
-    } finally {
-      setLoading(false);
     }
+
+    setLoading(false);
   };
 
-  if (user) return null;
+  if (user) {
+    navigate('/');
+    return null;
+  }
+
+  const pageStyle = {
+    minHeight: '100vh',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '24px',
+    background:
+      'radial-gradient(circle at top left, rgba(249,115,22,0.15), transparent 35%), radial-gradient(circle at bottom right, rgba(251,146,60,0.15), transparent 30%), linear-gradient(135deg, #ffffff 0%, #fff7ed 50%, #ffedd5 100%)',
+    fontFamily: 'Inter, Arial, sans-serif',
+    color: '#1f2937',
+  };
+
+  const shellStyle = {
+    width: '100%',
+    maxWidth: '1180px',
+    minHeight: '780px',
+    display: 'grid',
+    gridTemplateColumns: '1.1fr 0.9fr',
+    borderRadius: '32px',
+    overflow: 'hidden',
+    background: 'rgba(255,255,255,0.6)',
+    border: '1px solid rgba(249,115,22,0.15)',
+    boxShadow: '0 30px 90px rgba(249,115,22,0.1)',
+    backdropFilter: 'blur(18px)',
+  };
+
+  const leftStyle = {
+    position: 'relative',
+    padding: '70px',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    gap: '28px',
+    background:
+      'linear-gradient(160deg, rgba(255,237,213,0.6), rgba(255,255,255,0.4), rgba(254,215,170,0.6))',
+  };
+
+  const glow1 = {
+    position: 'absolute',
+    top: '-80px',
+    left: '-80px',
+    width: '220px',
+    height: '220px',
+    borderRadius: '50%',
+    background: 'radial-gradient(circle, rgba(249,115,22,0.25), transparent 70%)',
+    filter: 'blur(10px)',
+    pointerEvents: 'none',
+  };
+
+  const glow2 = {
+    position: 'absolute',
+    bottom: '-70px',
+    right: '30px',
+    width: '260px',
+    height: '260px',
+    borderRadius: '50%',
+    background: 'radial-gradient(circle, rgba(251,146,60,0.2), transparent 70%)',
+    filter: 'blur(10px)',
+    pointerEvents: 'none',
+  };
+
+  const cardStyle = {
+    width: '100%',
+    maxWidth: '430px',
+    margin: '0 auto',
+    padding: '34px',
+    borderRadius: '28px',
+    background: 'rgba(255,255,255,0.95)',
+    border: '1px solid rgba(249,115,22,0.1)',
+    boxShadow: '0 18px 50px rgba(249,115,22,0.12)',
+  };
 
   return (
-    <div className="auth-page">
-      <style>{`
-        .auth-page{
-          min-height:100vh;
-          display:flex;
-          align-items:center;
-          justify-content:center;
-          padding:24px;
-          background:
-            radial-gradient(circle at top left, rgba(249,115,22,0.15), transparent 35%),
-            radial-gradient(circle at bottom right, rgba(251,146,60,0.15), transparent 30%),
-            linear-gradient(135deg, #ffffff 0%, #fff7ed 50%, #ffedd5 100%);
-          font-family: Inter, Arial, sans-serif;
-          color:#1f2937;
-          box-sizing:border-box;
-        }
+    <div style={pageStyle}>
+      <div style={shellStyle}>
+        <div style={leftStyle}>
+          <div style={glow1} />
+          <div style={glow2} />
 
-        .auth-shell{
-          width:100%;
-          max-width:1180px;
-          min-height:780px;
-          display:grid;
-          grid-template-columns:1.1fr 0.9fr;
-          border-radius:32px;
-          overflow:hidden;
-          background:rgba(255,255,255,0.6);
-          border:1px solid rgba(249,115,22,0.15);
-          box-shadow:0 30px 90px rgba(249,115,22,0.10);
-          backdrop-filter:blur(18px);
-        }
-
-        .auth-left{
-          position:relative;
-          padding:70px;
-          display:flex;
-          flex-direction:column;
-          justify-content:center;
-          gap:28px;
-          background:
-            linear-gradient(160deg, rgba(255,237,213,0.6), rgba(255,255,255,0.4), rgba(254,215,170,0.6));
-        }
-
-        .auth-right{
-          padding:24px;
-          display:flex;
-          align-items:center;
-          justify-content:center;
-          background:linear-gradient(180deg, rgba(255,255,255,0.30), rgba(255,255,255,0.70));
-        }
-
-        .glow-1, .glow-2{
-          position:absolute;
-          border-radius:50%;
-          pointer-events:none;
-          filter:blur(10px);
-        }
-
-        .glow-1{
-          top:-80px;
-          left:-80px;
-          width:220px;
-          height:220px;
-          background:radial-gradient(circle, rgba(249,115,22,0.25), transparent 70%);
-        }
-
-        .glow-2{
-          bottom:-70px;
-          right:30px;
-          width:260px;
-          height:260px;
-          background:radial-gradient(circle, rgba(251,146,60,0.2), transparent 70%);
-        }
-
-        .brand-row{
-          display:flex;
-          align-items:center;
-          gap:16px;
-          z-index:1;
-        }
-
-        .brand-icon{
-          width:64px;
-          height:64px;
-          border-radius:20px;
-          display:grid;
-          place-items:center;
-          background:linear-gradient(135deg, #ea580c, #f97316);
-          box-shadow:0 12px 30px rgba(249,115,22,0.3);
-          flex-shrink:0;
-        }
-
-        .brand-title{
-          margin:0;
-          font-size:54px;
-          line-height:1;
-          font-weight:900;
-          letter-spacing:-0.05em;
-          background:linear-gradient(90deg, #c2410c, #ea580c, #f97316);
-          -webkit-background-clip:text;
-          -webkit-text-fill-color:transparent;
-        }
-
-        .brand-subtitle{
-          margin:8px 0 0;
-          color:#4b5563;
-          font-size:17px;
-        }
-
-        .brand-copy{
-          z-index:1;
-          max-width:560px;
-          color:#4b5563;
-          font-size:16px;
-          line-height:1.8;
-        }
-
-        .feature-grid{
-          z-index:1;
-          display:grid;
-          grid-template-columns:repeat(2, minmax(0, 1fr));
-          gap:14px;
-          max-width:520px;
-        }
-
-        .feature-card{
-          padding:16px 18px;
-          border-radius:18px;
-          background:rgba(249,115,22,0.06);
-          border:1px solid rgba(249,115,22,0.12);
-          display:flex;
-          align-items:center;
-          gap:12px;
-          color:#1f2937;
-          box-sizing:border-box;
-        }
-
-        .feature-card span:last-child{
-          font-size:15px;
-          font-weight:600;
-        }
-
-        .auth-card{
-          width:100%;
-          max-width:430px;
-          margin:0 auto;
-          padding:34px;
-          border-radius:28px;
-          background:rgba(255,255,255,0.95);
-          border:1px solid rgba(249,115,22,0.10);
-          box-shadow:0 18px 50px rgba(249,115,22,0.12);
-          box-sizing:border-box;
-        }
-
-        .toggle-row{
-          display:flex;
-          gap:8px;
-          padding:6px;
-          margin-bottom:26px;
-          border-radius:16px;
-          background:rgba(0,0,0,0.04);
-          border:1px solid rgba(0,0,0,0.02);
-        }
-
-        .toggle-btn{
-          flex:1;
-          padding:12px 14px;
-          border:none;
-          border-radius:12px;
-          font-weight:700;
-          cursor:pointer;
-          transition:0.2s ease;
-        }
-
-        .toggle-btn.active{
-          background:linear-gradient(135deg, #ea580c, #f97316);
-          color:#fff;
-          box-shadow:0 4px 12px rgba(249,115,22,0.2);
-        }
-
-        .toggle-btn.inactive{
-          background:transparent;
-          color:#4b5563;
-        }
-
-        .title-block{
-          margin-bottom:18px;
-        }
-
-        .form-title{
-          font-size:28px;
-          font-weight:800;
-          margin-bottom:6px;
-          color:#111827;
-        }
-
-        .form-subtitle{
-          color:#6b7280;
-          font-size:14px;
-        }
-
-        .error-box{
-          background:rgba(254,226,226,0.85);
-          border:1px solid rgba(252,165,165,0.35);
-          padding:12px 14px;
-          border-radius:12px;
-          margin-bottom:16px;
-          color:#991b1b;
-          font-size:14px;
-        }
-
-        .form-grid{
-          display:grid;
-          gap:16px;
-        }
-
-        .field label{
-          display:block;
-          margin-bottom:8px;
-          color:#4b5563;
-          font-size:14px;
-          font-weight:500;
-        }
-
-        .field input,
-        .field select{
-          width:100%;
-          padding:14px 16px;
-          border-radius:14px;
-          border:1px solid rgba(0, 0, 0, 0.1);
-          background:rgba(255,255,255,0.8);
-          color:#1f2937;
-          outline:none;
-          font-size:15px;
-          box-sizing:border-box;
-          backdrop-filter:blur(10px);
-        }
-
-        .field input::placeholder{
-          color:#94a3b8;
-        }
-
-        .submit-btn{
-          margin-top:6px;
-          padding:14px 16px;
-          border:none;
-          border-radius:14px;
-          background:linear-gradient(135deg, #ea580c, #f97316);
-          color:#fff;
-          font-weight:800;
-          font-size:16px;
-          cursor:pointer;
-          box-shadow:0 14px 30px rgba(249,115,22,0.25);
-          transition:0.2s ease;
-        }
-
-        .submit-btn:disabled{
-          opacity:0.8;
-          cursor:not-allowed;
-        }
-
-        @media (max-width: 1024px){
-          .auth-shell{
-            grid-template-columns:1fr;
-            min-height:auto;
-          }
-
-          .auth-left{
-            padding:56px 40px;
-          }
-
-          .auth-right{
-            padding:24px 20px 40px;
-          }
-
-          .auth-card{
-            max-width:520px;
-          }
-        }
-
-        @media (max-width: 768px){
-          .auth-page{
-            padding:16px;
-          }
-
-          .auth-left{
-            padding:40px 24px;
-          }
-
-          .brand-row{
-            align-items:flex-start;
-          }
-
-          .brand-title{
-            font-size:42px;
-          }
-
-          .brand-subtitle{
-            font-size:15px;
-          }
-
-          .brand-copy{
-            font-size:15px;
-          }
-
-          .feature-grid{
-            grid-template-columns:1fr;
-            max-width:100%;
-          }
-
-          .auth-card{
-            padding:24px;
-            border-radius:24px;
-          }
-
-          .form-title{
-            font-size:24px;
-          }
-        }
-
-        @media (max-width: 480px){
-          .auth-page{
-            padding:10px;
-          }
-
-          .auth-left{
-            padding:28px 18px;
-            gap:18px;
-          }
-
-          .brand-row{
-            flex-direction:column;
-            align-items:flex-start;
-          }
-
-          .brand-icon{
-            width:58px;
-            height:58px;
-            border-radius:18px;
-          }
-
-          .brand-title{
-            font-size:34px;
-          }
-
-          .brand-subtitle{
-            font-size:14px;
-          }
-
-          .brand-copy{
-            font-size:14px;
-            line-height:1.7;
-          }
-
-          .auth-right{
-            padding:16px 12px 24px;
-          }
-
-          .auth-card{
-            padding:18px;
-            border-radius:20px;
-          }
-
-          .toggle-row{
-            flex-direction:column;
-          }
-
-          .toggle-btn{
-            width:100%;
-          }
-        }
-      `}</style>
-
-      <div className="auth-shell">
-        <div className="auth-left">
-          <div className="glow-1" />
-          <div className="glow-2" />
-
-          <div className="brand-row">
-            <div className="brand-icon">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', zIndex: 1 }}>
+            <div
+              style={{
+                width: '64px',
+                height: '64px',
+                borderRadius: '20px',
+                display: 'grid',
+                placeItems: 'center',
+                background: 'linear-gradient(135deg, #ea580c, #f97316)',
+                boxShadow: '0 12px 30px rgba(249,115,22,0.3)',
+                flexShrink: 0,
+              }}
+            >
               <svg width="34" height="34" viewBox="0 0 48 48" fill="none">
                 <path
                   d="M14 34V18L24 12L34 18V34L24 28L14 34Z"
@@ -434,40 +156,114 @@ export default function AuthPage() {
             </div>
 
             <div>
-              <h1 className="brand-title">Ethara AI</h1>
-              <p className="brand-subtitle">Intelligent Task Management for Modern Teams</p>
+              <h1
+                style={{
+                  margin: 0,
+                  fontSize: '54px',
+                  lineHeight: 1,
+                  fontWeight: 900,
+                  letterSpacing: '-0.05em',
+                  background: 'linear-gradient(90deg, #c2410c, #ea580c, #f97316)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                }}
+              >
+                Ethara AI
+              </h1>
+              <p style={{ margin: '8px 0 0', color: '#4b5563', fontSize: '17px' }}>
+                Intelligent Task Management for Modern Teams
+              </p>
             </div>
           </div>
 
-          <div className="brand-copy">
+          <div
+            style={{
+              zIndex: 1,
+              maxWidth: '560px',
+              color: '#4b5563',
+              fontSize: '16px',
+              lineHeight: 1.8,
+            }}
+          >
             Manage work faster, collaborate smarter, and keep every task visible in one clean workspace.
           </div>
 
-          <div className="feature-grid">
+          <div
+            style={{
+              zIndex: 1,
+              display: 'grid',
+              gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+              gap: '14px',
+              maxWidth: '520px',
+            }}
+          >
             {[
               { icon: '📊', text: 'Real-time Dashboard' },
               { icon: '👥', text: 'Team Collaboration' },
               { icon: '🔒', text: 'Role-based Access' },
               { icon: '📋', text: 'Smart Task Tracking' },
             ].map((item, index) => (
-              <div key={index} className="feature-card">
+              <div
+                key={index}
+                style={{
+                  padding: '16px 18px',
+                  borderRadius: '18px',
+                  background: 'rgba(249,115,22,0.06)',
+                  border: '1px solid rgba(249,115,22,0.12)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '12px',
+                  color: '#1f2937',
+                }}
+              >
                 <span style={{ fontSize: '20px' }}>{item.icon}</span>
-                <span>{item.text}</span>
+                <span style={{ fontSize: '15px', fontWeight: 600 }}>{item.text}</span>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="auth-right">
-          <div className="auth-card">
-            <div className="toggle-row">
+        <div
+          style={{
+            padding: '24px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: 'linear-gradient(180deg, rgba(255,255,255,0.30), rgba(255,255,255,0.70))',
+          }}
+        >
+          <div style={cardStyle}>
+            <div
+              style={{
+                display: 'flex',
+                gap: '8px',
+                padding: '6px',
+                marginBottom: '26px',
+                borderRadius: '16px',
+                background: 'rgba(0,0,0,0.04)',
+                border: '1px solid rgba(0,0,0,0.02)',
+              }}
+            >
               <button
                 type="button"
                 onClick={() => {
                   setIsLogin(true);
                   setError('');
                 }}
-                className={`toggle-btn ${isLogin ? 'active' : 'inactive'}`}
+                style={{
+                  flex: 1,
+                  padding: '12px 14px',
+                  border: 'none',
+                  borderRadius: '12px',
+                  background: isLogin
+                    ? 'linear-gradient(135deg, #ea580c, #f97316)'
+                    : 'transparent',
+                  color: isLogin ? '#fff' : '#4b5563',
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  transition: '0.2s ease',
+                  boxShadow: isLogin ? '0 4px 12px rgba(249,115,22,0.2)' : 'none',
+                }}
               >
                 Sign In
               </button>
@@ -478,48 +274,85 @@ export default function AuthPage() {
                   setIsLogin(false);
                   setError('');
                 }}
-                className={`toggle-btn ${!isLogin ? 'active' : 'inactive'}`}
+                style={{
+                  flex: 1,
+                  padding: '12px 14px',
+                  border: 'none',
+                  borderRadius: '12px',
+                  background: !isLogin
+                    ? 'linear-gradient(135deg, #ea580c, #f97316)'
+                    : 'transparent',
+                  color: !isLogin ? '#fff' : '#4b5563',
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  transition: '0.2s ease',
+                  boxShadow: !isLogin ? '0 4px 12px rgba(249,115,22,0.2)' : 'none',
+                }}
               >
                 Sign Up
               </button>
             </div>
 
-            <div className="title-block">
-              <div className="form-title">{isLogin ? 'Welcome back' : 'Create account'}</div>
-              <div className="form-subtitle">
+            <div style={{ marginBottom: '18px' }}>
+              <div style={{ fontSize: '28px', fontWeight: 800, marginBottom: '6px', color: '#111827' }}>
+                {isLogin ? 'Welcome back' : 'Create account'}
+              </div>
+              <div style={{ color: '#6b7280', fontSize: '14px' }}>
                 {isLogin ? 'Sign in to continue.' : 'Fill the details below to get started.'}
               </div>
             </div>
 
-            {error && <div className="error-box">{error}</div>}
+            {error && (
+              <div
+                style={{
+                  background: 'rgba(254,226,226,0.85)',
+                  border: '1px solid rgba(252,165,165,0.35)',
+                  padding: '12px 14px',
+                  borderRadius: '12px',
+                  marginBottom: '16px',
+                  color: '#991b1b',
+                  fontSize: '14px',
+                }}
+              >
+                {error}
+              </div>
+            )}
 
-            <form onSubmit={handleSubmit} className="form-grid">
+            <form onSubmit={handleSubmit} style={{ display: 'grid', gap: '16px' }}>
               {!isLogin && (
-                <div className="field">
-                  <label>Full Name</label>
+                <div>
+                  <label style={{ display: 'block', marginBottom: '8px', color: '#4b5563', fontSize: '14px', fontWeight: 500 }}>
+                    Full Name
+                  </label>
                   <input
                     type="text"
                     placeholder="John Doe"
                     required
                     value={form.name}
                     onChange={(e) => setForm({ ...form, name: e.target.value })}
+                    style={inputStyle}
                   />
                 </div>
               )}
 
-              <div className="field">
-                <label>Email</label>
+              <div>
+                <label style={{ display: 'block', marginBottom: '8px', color: '#4b5563', fontSize: '14px', fontWeight: 500 }}>
+                  Email
+                </label>
                 <input
                   type="email"
                   placeholder="you@ethara.ai"
                   required
                   value={form.email}
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
+                  style={inputStyle}
                 />
               </div>
 
-              <div className="field">
-                <label>Password</label>
+              <div>
+                <label style={{ display: 'block', marginBottom: '8px', color: '#4b5563', fontSize: '14px', fontWeight: 500 }}>
+                  Password
+                </label>
                 <input
                   type="password"
                   placeholder="Min 6 characters"
@@ -527,15 +360,23 @@ export default function AuthPage() {
                   minLength={6}
                   value={form.password}
                   onChange={(e) => setForm({ ...form, password: e.target.value })}
+                  style={inputStyle}
                 />
               </div>
 
               {!isLogin && (
-                <div className="field">
-                  <label>Role</label>
+                <div>
+                  <label style={{ display: 'block', marginBottom: '8px', color: '#4b5563', fontSize: '14px', fontWeight: 500 }}>
+                    Role
+                  </label>
                   <select
                     value={form.role}
                     onChange={(e) => setForm({ ...form, role: e.target.value })}
+                    style={{
+                      ...inputStyle,
+                      appearance: 'none',
+                      cursor: 'pointer',
+                    }}
                   >
                     <option value="member">Member</option>
                     <option value="admin">Admin</option>
@@ -543,7 +384,24 @@ export default function AuthPage() {
                 </div>
               )}
 
-              <button type="submit" className="submit-btn" disabled={loading}>
+              <button
+                type="submit"
+                disabled={loading}
+                style={{
+                  marginTop: '6px',
+                  padding: '14px 16px',
+                  border: 'none',
+                  borderRadius: '14px',
+                  background: loading
+                    ? 'linear-gradient(135deg, #d1d5db, #9ca3af)'
+                    : 'linear-gradient(135deg, #ea580c, #f97316)',
+                  color: '#fff',
+                  fontWeight: 800,
+                  fontSize: '16px',
+                  cursor: loading ? 'not-allowed' : 'pointer',
+                  boxShadow: '0 14px 30px rgba(249,115,22,0.25)',
+                }}
+              >
                 {loading ? 'Please wait...' : isLogin ? 'Sign In' : 'Create Account'}
               </button>
             </form>
